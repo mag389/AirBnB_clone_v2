@@ -13,7 +13,6 @@ class FileStorage:
         if cls is None:
             return FileStorage.__objects
         ret = {}
-        print("class is {}".format(cls.__name__))
         for key in FileStorage.__objects.keys():
             if key[:key.index(".")] == cls.__name__:
                 ret[key] = FileStorage.__objects[key]
