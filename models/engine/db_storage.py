@@ -4,7 +4,15 @@
 import os
 import sys
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
+""" Imports copied from file_storage """
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class DBStorage:
@@ -29,5 +37,33 @@ class DBStorage:
         self.__engine = create_engine("{}".format(eng_str), pool_pre_ping=True)
 
         if os.environ.get('HBNB_ENV') is 'test':
-            """ drop tables """
-            """ will finish this later. """
+            """ drop tables HAVE NOT BEEN ABLE TO TEST YET!!!"""
+            Base.metadata.drop_all(self.__engine)
+
+    def all(self, cls=None):
+        """ Query the current DB session for all objects (of cls) """
+
+        fin_dict = {}
+
+        """ TODO """
+                
+    def new(self, obj):
+        """ Adds this object instance to the DB """
+        self.__session.add(obj)
+
+    def save(self):
+        """ Commits to the database session self.__session """
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """ Delete an obj from the current session """
+        """ Only delete if obj is not None """
+        if obj:
+            self.__session.delete(obj)
+
+    def reload(self):
+        """ reloads the db and assigns the session """
+        Base.metadata.create_all(engine)
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        scope = scoped_session(Session)
+        self.__session = Scope()
