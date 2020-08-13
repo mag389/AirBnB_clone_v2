@@ -138,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(new_instance, params[0], float(params[1]))
                     continue
                 setattr(new_instance, params[0], int(params[1]))
-        storage.save()
+        storage.new(new_instance)
         print(new_instance.id)
         storage.save()
 

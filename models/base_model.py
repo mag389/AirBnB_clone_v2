@@ -62,4 +62,3 @@ class BaseModel:
     def delete(self):
         """ Makes this instance commit toaster bath """
         del self
-        
