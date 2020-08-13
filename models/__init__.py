@@ -4,11 +4,8 @@ import os
 
 
 store_type = os.environ.get('HBNB_TYPE_STORAGE')
-print("in the init")
-print(store_type)
 if store_type == "db":
     """ use the mysql database storage version """
-    print("db type storage")
     from models.engine.db_storage import DBStorage
     storage = DBStorage()
     storage.reload()
