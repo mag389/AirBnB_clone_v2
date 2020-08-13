@@ -6,7 +6,7 @@ import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 """ Imports copied from file_storage """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -63,7 +63,7 @@ class DBStorage:
 
     def reload(self):
         """ reloads the db and assigns the session """
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         scope = scoped_session(Session)
         self.__session = Scope()
