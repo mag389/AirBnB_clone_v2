@@ -5,7 +5,6 @@ import os
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-""" Imports copied from file_storage """
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.place import Place
@@ -45,8 +44,36 @@ class DBStorage:
 
         fin_dict = {}
 
-        """ TODO """
-                
+        """ If class has a value, search for only that class """
+        """ Look ik you can do this in less lines with a dictionary
+            of classes but honestly this is so much easier to read. """
+        if cls is "City" or cls is None:
+            query = self.__session.query(City)
+            for dta in query:
+                fin_dict['City.{}'.format(dta.id)] = dta
+
+        if cls is "Place" or cls is None:
+            query = self.__session.query(Place)
+            for dta in query:
+                fin_dict['Place.{}'.format(dta.id)] = dta
+
+        if cls is "State" or cls is None:
+            query = self.__session.query(State)
+            for dta in query:
+                fin_dict['State.{}'.format(dta.id)] = dta
+
+        if cls is "Amenity" or cls is None:
+            query = self.__session.query(Amenity)
+            for dta in query:
+                fin_dict['Amenity.{}'.format(dta.id)] = dta
+
+        if cls is "Review" or cls is None:
+            query = self.__session.query(Review)
+            for dta in query:
+                fin_dict['Review.{}'.format(dta.id)] = dta
+
+        return fin_dict
+
     def new(self, obj):
         """ Adds this object instance to the DB """
         self.__session.add(obj)
