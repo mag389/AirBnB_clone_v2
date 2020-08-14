@@ -19,7 +19,7 @@ class test_review(test_basemodel):
         if new.place_id is not None:
             self.assertEqual(type(new.place_id), str)
         else:
-            self.assertEqual(new.place_id), None)
+            self.assertEqual(new.place_id, None)
 
     def test_user_id(self):
         """ """
@@ -27,7 +27,7 @@ class test_review(test_basemodel):
         if new.user_id is not None:
             self.assertEqual(type(new.user_id), str)
         else:
-            self.assertEqual(new.user_id), None)
+            self.assertEqual(new.user_id, None)
 
     def test_text(self):
         """ """
@@ -35,4 +35,4 @@ class test_review(test_basemodel):
         if new.text is not None:
             self.assertEqual(type(new.text), str)
         else:
-            self.assertEqual(new.text), None)
+            self.assertEqual(new.text, None)
