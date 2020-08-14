@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """This module defines a class User"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.place import Place
+from models.review import Review
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
@@ -14,3 +15,5 @@ class User(BaseModel, Base):
     last_name = Column(String(128), nullable=False)
     places = relationship("Place", cascade='all, delete',
                           backref='user')
+    reviews = relationship("Review", cascade='all, delete',
+                           backref='user')
