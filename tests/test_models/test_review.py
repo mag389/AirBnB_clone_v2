@@ -16,14 +16,23 @@ class test_review(test_basemodel):
     def test_place_id(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.place_id), str)
+        if new.place_id is not None:
+            self.assertEqual(type(new.place_id), str)
+        else:
+            self.assertEqual(new.place_id), None)
 
     def test_user_id(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.user_id), str)
+        if new.user_id is not None:
+            self.assertEqual(type(new.user_id), str)
+        else:
+            self.assertEqual(new.user_id), None)
 
     def test_text(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.text), str)
+        if new.text is not None:
+            self.assertEqual(type(new.text), str)
+        else:
+            self.assertEqual(new.text), None)

@@ -32,7 +32,10 @@ class BaseModel:
                 kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                          stringy)
             if "__class__" in kwargs.keys():
+                """ setattr(self, "__class__", kwargs["__class__"])"""
                 del kwargs['__class__']
+            for k, v in kwargs.items():
+                setattr(self, k, v)
             self.__dict__.update(kwargs)
 
     def __str__(self):
