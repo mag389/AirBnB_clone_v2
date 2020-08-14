@@ -16,15 +16,15 @@ class test_City(test_basemodel):
     def test_state_id(self):
         """ """
         new = self.value()
-        if type(new.state_id) is not NoneType:
+        if new.state_id is not None:
             self.assertEqual(type(new.state_id), str)
         else:
-            self.assertEqual(type(new.state_id), None)
+            self.assertEqual(new.state_id, None)
 
     def test_name(self):
         """ """
         new = self.value()
-        if type(new.name) is not NoneType:
+        if new.name is not None:
             self.assertEqual(type(new.name), str)
         else:
-            self.assertEqual(type(new.name), None)
+            self.assertEqual(new.name, None)
