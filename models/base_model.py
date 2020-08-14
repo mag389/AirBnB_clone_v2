@@ -31,7 +31,8 @@ class BaseModel:
             if "created_at" in kwargs.keys():
                 kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                          stringy)
-            del kwargs['__class__']
+            if "__class__" in kwargs.keys():
+                del kwargs['__class__']
             self.__dict__.update(kwargs)
 
     def __str__(self):
