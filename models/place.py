@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Float, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
@@ -7,6 +8,7 @@ from sqlalchemy.orm import relationship
 
 class Place(BaseModel, Base):
     """ A place to stay """
+
     __tablename__ = "places"
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -19,6 +21,5 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     amenity_ids = []
-
     reviews = relationship('Review', backref='place',
                            cascade='all, delete')
