@@ -91,6 +91,7 @@ class DBStorage:
     def reload(self):
         """ reloads the db and assigns the session """
         Base.metadata.create_all(self.__engine)
+        """ Just assigns the session to the class variable """
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         scope = scoped_session(Session)
         self.__session = scope()
