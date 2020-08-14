@@ -16,4 +16,7 @@ class test_state(test_basemodel):
     def test_name3(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.name), str)
+        if type(new.name) is not NoneType:
+            self.assertEqual(type(new.name), str)
+        else:
+            self.assertEqual(type(new.name), None)

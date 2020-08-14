@@ -93,4 +93,4 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         scope = scoped_session(Session)
-        self.__session = Scope()
+        self.__session = scope()
