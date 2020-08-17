@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ packing all files """
-from fabic.api impoort *
+from fabric.api import *
 from datetime import datetime
 import os
 
