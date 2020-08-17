@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-<<<<<<< HEAD
 # prepare our web servers
 # install nginx if not installed
 sudo apt-get -y update
@@ -54,15 +53,3 @@ newstring='server {
 }'
 sudo echo "$newstring" | sudo tee /etc/nginx/sites-available/default
 sudo service nginx restart
-=======
-# Sets up server file structure automatically
-mkdir -p /data/
-mkdir -p /data/web_static/
-mkdir -p /data/web_static/releases/
-mkdir -p /data/web_static/shared/
-mkdir -p /data/web_static/releases/test/
-touch /data/web_static/releases/test/index.html
-echo 'Holberton School' > /data/web_static/releases/test/index.html
-ln -s /data/web_static/releases/test /data/web_static/current
-chown -R ubuntu:ubuntu /data/
->>>>>>> 5acf22e61d59f7a662635b483a7b079e9d7c71bc
