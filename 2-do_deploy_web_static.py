@@ -24,13 +24,13 @@ def do_deploy(archive_path):
     """ distrubutes an archive to web servers """
     if os.path.exists(archive_path):
         try:
-            print("into try")
+            # print("into try")
             put(archive_path, "/tmp/")
             fname = archive_path.split("/")
             noext = fname[1].split(".")
-            print(fname)
+            # print(fname)
             run("mkdir -p /data/web_static/releases/{}".format(noext[0]))
-            run("tar -xzvf /tmp/{} -C /data/web_static/releases/{}".
+            run("tar -xzf /tmp/{} -C /data/web_static/releases/{}".
                 format(fname[1], noext[0]))
             run("rm /tmp/{}".format(fname[1]))
             run("rm -f /data/web_static/current")
@@ -38,6 +38,6 @@ def do_deploy(archive_path):
                  /data/web_static/current".format(noext[0]))
             return True
         except Exception as e:
-            print(e)
+            # print(e)
             return False
     return False
