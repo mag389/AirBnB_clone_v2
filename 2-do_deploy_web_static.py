@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 
-env.hosts = ['35.227.79.31'], ['35.243.199.170']
+env.hosts = ['35.227.79.31', '35.243.199.170']
 
 
 def do_pack():
@@ -29,11 +29,11 @@ def do_deploy(archive_path):
             fname = archive_path.split("/")
             noext = fname[1].split(".")
             # print(fname)
-            run("mkdir -p /data/web_static/releases/{}".format(noext[0]))
-            run("tar -xzf /tmp/{} -C /data/web_static/releases/{}".
+            run("sudo mkdir -p /data/web_static/releases/{}".format(noext[0]))
+            run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}".
                 format(fname[1], noext[0]))
-            run("rm /tmp/{}".format(fname[1]))
-            run("rm -f /data/web_static/current")
+            run("sudo rm /tmp/{}".format(fname[1]))
+            run("sudo rm -f /data/web_static/current")
             run("sudo ln -sf /data/web_static/releases/{}\
                  /data/web_static/current".format(noext[0]))
             return True
