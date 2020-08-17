@@ -29,12 +29,16 @@ def do_deploy(archive_path):
             fname = archive_path.split("/")
             noext = fname[1].split(".")
             # print(fname)
-            run("sudo mkdir -p /data/web_static/releases/{}".format(noext[0]))
-            run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}".
+            run("sudo mkdir -p /data/web_static/releases/{}/".format(noext[0]))
+            run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
                 format(fname[1], noext[0]))
             run("sudo rm /tmp/{}".format(fname[1]))
-            run("sudo rm -f /data/web_static/current")
-            run("sudo ln -sf /data/web_static/releases/{}\
+            run("sudo mv /data/web_static/releases/{}/web_static/*\
+                 /data/web_static/releases/{}/".format(noext[0], noext[0]))
+            run("sudo rm -rf /data/web_static/releases/{}/web_static".
+                format(noext[0]))
+            run("sudo rm -rf /data/web_static/current")
+            run("sudo ln -s /data/web_static/releases/{}/\
                  /data/web_static/current".format(noext[0]))
             return True
         except Exception as e:
