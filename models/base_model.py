@@ -75,7 +75,6 @@ class BaseModel:
         """ Holby wants that key removed if it exists (idk why) """
         if '_sa_instance_state' in dictionary:
             dictionary.pop('_sa_instance_state')
-
         return dictionary
 
     def delete(self):
