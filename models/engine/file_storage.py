@@ -62,3 +62,7 @@ class FileStorage:
         key = "" + obj.to_dict()['__class__'] + '.' + obj.id
         self.all().pop(key, None)
         self.save()
+
+    def close(self):
+        """ deserialize the json objects """
+        self.reload()
