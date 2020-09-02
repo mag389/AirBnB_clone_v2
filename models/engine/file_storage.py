@@ -13,9 +13,9 @@ class FileStorage:
         if cls is None:
             return FileStorage.__objects
         ret = {}
-        for key in FileStorage.__objects.keys():
-            if key[:key.index(".")] == cls.__name__:
-                ret[key] = FileStorage.__objects[key]
+        for key, value in FileStorage.__objects.items():
+            if value.to_dict()['__class__'] == cls.__name__:
+                ret[key] = value
         return ret
 
     def new(self, obj):
