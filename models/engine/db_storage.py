@@ -5,6 +5,7 @@ import os
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
+
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.place import Place
@@ -37,16 +38,30 @@ class DBStorage:
 
         if os.environ.get('HBNB_ENV') is 'test':
             """ drop tables HAVE NOT BEEN ABLE TO TEST YET!!!"""
-            Base.metadata.drop_all(self.__engine)
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         """ Query the current DB session for all objects (of cls) """
 
         fin_dict = {}
-
+        query_objs = []
         """ If class has a value, search for only that class """
         """ Look ik you can do this in less lines with a dictionary
             of classes but honestly this is so much easier to read. """
+        if cls is not None:
+            query_objs = self.__session.query(cls).all()
+        else:
+            query_objs.append(self.session.query(User).all())
+            query_objs.append(self.session.query(City).all())
+            query_objs.append(self.session.query(State).all())
+            query_objs.append(self.session.query(Amenity).all())
+            query_objs.append(self.session.query(Place).all())
+            query_objs.append(self.session.query(Review).all())
+        for obj in query_objs:
+            key = obj.to_dict()['__class__'] + "." + obj.to_dict()['id']
+            find_dict[key] = obj
+        """
+        deprecated (never worked) method
         if cls is "City" or cls is None:
             query = self.__session.query(City)
             for dta in query:
@@ -71,7 +86,7 @@ class DBStorage:
             query = self.__session.query(Review)
             for dta in query:
                 fin_dict['Review.{}'.format(dta.id)] = dta
-
+        """
         return fin_dict
 
     def new(self, obj):
