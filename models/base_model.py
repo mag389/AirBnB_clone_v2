@@ -25,6 +25,20 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             stringy = "%Y-%m-%dT%H:%M:%S.%f"
+            for k, v in kwargs.items():
+                if k == '__class__':
+                    setattr(self, k, type(self))
+                elif k == 'created_at' or k == 'updated_at':
+                    setattr(self, k, datetime.strptime(v, stringy))
+                else:
+                    setattr(self, k, v)
+            if 'id' not in kwargs.keys():
+                self.id = str(uuid.uuid4())
+            if 'created_at' not in kwargs.keys():
+                self.created_at = datetime.now()
+            if 'updated_at' not in kwargs.keys():
+                self.updated_at = datetime.now()
+            """
             if "updated_at" in kwargs.keys():
                 kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                          stringy)
@@ -32,16 +46,15 @@ class BaseModel:
                 kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                          stringy)
             if "__class__" in kwargs.keys():
-                """ setattr(self, "__class__", kwargs["__class__"])"""
                 del kwargs['__class__']
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-            self.__dict__.update(kwargs)
+            """
 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        dictionary = self.to_dict()
+        dictionary.pop('__class__')
+        return '[{}] ({}) {}'.format(cls, self.id, dictionary)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
@@ -67,5 +80,6 @@ class BaseModel:
 
     def delete(self):
         """ Makes this instance commit toaster bath """
+        from models import storage
         storage.delete(self)
         """ del self """
