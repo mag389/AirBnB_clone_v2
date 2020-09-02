@@ -16,7 +16,6 @@ class State(BaseModel, Base):
         """return list of cities with this state id """
         from models.city import City
         from models.__init__ import storage
-        from models.engine.file_storage import FileStorage
 
         cits = storage.all(City).items()
         cits_b = []
