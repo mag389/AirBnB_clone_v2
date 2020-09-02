@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import shlex
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -114,33 +115,43 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        """Creates a new instance of BaseModel, saves it
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
+        """
+        if len(args) == 0:
             print("** class name missing **")
             return
-        parts = args.split()
-        """ check if arg[0] a class """
-        if parts[0] not in HBNBCommand.classes:
+        try:
+            args = shlex.split(args, posix=False)
+            new_instance = eval(args[0])()
+            if len(args) > 1:
+                for i in range(1, len(args)):
+                    key, value = args[i].split('=')
+                    if value[0] == '"' and value[len(value) - 1] == '"':
+                        value = value[1:len(value) - 1]
+                        if '_' in value:
+                            value = value.replace('_', ' ')
+                        value = str(value)
+
+                    elif isinstance(eval(value), int):
+                        value = int(value)
+
+                    elif isinstance(eval(value), float):
+                        value = float(value)
+
+                    else:
+                        continue
+
+                    setattr(new_instance, key, value)
+
+            new_instance.save()
+            print(new_instance.id)
+
+        except Exception as e:
+            print(e)
             print("** class doesn't exist **")
-            return
-        """ if it is create it and set params"""
-        new_instance = HBNBCommand.classes[parts[0]]()
-        if len(parts) > 1:
-            for param in parts[1:]:
-                if "=" not in param or param[0] is "=" or param[-1] is "=":
-                    continue
-                params = param.split("=")
-                if params[1][0] is "\"":
-                    params[1] = params[1].replace("_", " ")
-                    setattr(new_instance, params[0], params[1])
-                    continue
-                if "." in params[1]:
-                    setattr(new_instance, params[0], float(params[1]))
-                    continue
-                setattr(new_instance, params[0], int(params[1]))
-        storage.new(new_instance)
-        print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -335,6 +346,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
