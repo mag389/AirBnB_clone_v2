@@ -38,16 +38,6 @@ class BaseModel:
                 self.created_at = datetime.now()
             if 'updated_at' not in kwargs.keys():
                 self.updated_at = datetime.now()
-            """
-            if "updated_at" in kwargs.keys():
-                kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                         stringy)
-            if "created_at" in kwargs.keys():
-                kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                         stringy)
-            if "__class__" in kwargs.keys():
-                del kwargs['__class__']
-            """
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -81,4 +71,3 @@ class BaseModel:
         """ Makes this instance commit toaster bath """
         from models import storage
         storage.delete(self)
-        """ del self """
