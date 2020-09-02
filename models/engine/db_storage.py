@@ -45,48 +45,18 @@ class DBStorage:
         fin_dict = {}
         query_objs = []
         """ If class has a value, search for only that class """
-        """ Look ik you can do this in less lines with a dictionary
-            of classes but honestly this is so much easier to read. """
         if cls is not None:
             query_objs = self.__session.query(cls).all()
         else:
-            query_objs.append(self.__session.query(User).all())
-            query_objs.append(self.__session.query(City).all())
-            query_objs.append(self.__session.query(State).all())
-            query_objs.append(self.__session.query(Amenity).all())
-            query_objs.append(self.__session.query(Place).all())
-            query_objs.append(self.__session.query(Review).all())
-        for lobjs in query_objs:
-            for obj in lobjs:
+            query_objs += (self.__session.query(User).all())
+            query_objs += (self.__session.query(City).all())
+            query_objs += (self.__session.query(State).all())
+            query_objs += (self.__session.query(Amenity).all())
+            query_objs += (self.__session.query(Place).all())
+            query_objs += (self.__session.query(Review).all())
+        for obj in query_objs:
                 key = obj.to_dict()['__class__'] + "." + obj.to_dict()['id']
                 fin_dict[key] = obj
-        """
-        deprecated (never worked) method
-        if cls is "City" or cls is None:
-            query = self.__session.query(City)
-            for dta in query:
-                fin_dict['City.{}'.format(dta.id)] = dta
-
-        if cls is "Place" or cls is None:
-            query = self.__session.query(Place)
-            for dta in query:
-                fin_dict['Place.{}'.format(dta.id)] = dta
-
-        if cls is "State" or cls is None:
-            query = self.__session.query(State)
-            for dta in query:
-                fin_dict['State.{}'.format(dta.id)] = dta
-
-        if cls is "Amenity" or cls is None:
-            query = self.__session.query(Amenity)
-            for dta in query:
-                fin_dict['Amenity.{}'.format(dta.id)] = dta
-
-        if cls is "Review" or cls is None:
-            query = self.__session.query(Review)
-            for dta in query:
-                fin_dict['Review.{}'.format(dta.id)] = dta
-        """
         return fin_dict
 
     def new(self, obj):
@@ -100,10 +70,7 @@ class DBStorage:
     def delete(self, obj=None):
         """ Delete an obj from the current session """
         if obj is not None:
-            self.__session.query(type(obj).__name__).\
-                filter(type(obj).__name__.id == obj.id).\
-                delete(synchronize_session=False)
-        self.__session.commit()
+            self.__session.delete(obj)
 
     def reload(self):
         """ reloads the db and assigns the session """
