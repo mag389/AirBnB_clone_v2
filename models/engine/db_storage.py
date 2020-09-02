@@ -5,7 +5,6 @@ import os
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.place import Place
@@ -51,15 +50,16 @@ class DBStorage:
         if cls is not None:
             query_objs = self.__session.query(cls).all()
         else:
-            query_objs.append(self.session.query(User).all())
-            query_objs.append(self.session.query(City).all())
-            query_objs.append(self.session.query(State).all())
-            query_objs.append(self.session.query(Amenity).all())
-            query_objs.append(self.session.query(Place).all())
-            query_objs.append(self.session.query(Review).all())
-        for obj in query_objs:
-            key = obj.to_dict()['__class__'] + "." + obj.to_dict()['id']
-            find_dict[key] = obj
+            query_objs.append(self.__session.query(User).all())
+            query_objs.append(self.__session.query(City).all())
+            query_objs.append(self.__session.query(State).all())
+            query_objs.append(self.__session.query(Amenity).all())
+            query_objs.append(self.__session.query(Place).all())
+            query_objs.append(self.__session.query(Review).all())
+        for lobjs in query_objs:
+            for obj in lobjs:
+                key = obj.to_dict()['__class__'] + "." + obj.to_dict()['id']
+                fin_dict[key] = obj
         """
         deprecated (never worked) method
         if cls is "City" or cls is None:
@@ -100,7 +100,7 @@ class DBStorage:
     def delete(self, obj=None):
         """ Delete an obj from the current session """
         """ Only delete if obj is not None """
-        if obj:
+        if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):

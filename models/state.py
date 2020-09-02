@@ -17,9 +17,10 @@ class State(BaseModel, Base):
         from models.city import City
         from models.__init__ import storage
         from models.engine.file_storage import FileStorage
-        cits = FileStorage.all(City)
+
+        cits = storage.all(City).items()
         cits_b = []
-        for city in cits:
-            if city.state_id == self.id:
-                cits_b.append(city)
+        for k, v in cits:
+            if v.to_dict()['state_id'] == self.id:
+                cits_b.append(v)
         return cits_b
