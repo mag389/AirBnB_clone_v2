@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        {% if just == 1 %}
+            <H1>States</H1>
+            <ul>
+                {% for stat in states.values() | sort(attribute="name") %}
+                    <li>{{ stat.id }}: <B>{{ stat.name }}</B></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% if exists == 1 %}
+                <h1>State: {{ state.name }}</h1>
+                <h3>Cities:</H3>
+                    <ul>
+                    {% for city in cities.values() | sort(attribute="name") %}
+                        {% if city.state_id == state.id %}
+                            <li>{{ city.id }}: <B>{{ city.name }}</B></li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+            {% else %}
+                <H1>Not found!</H1>
+            {% endif %}
+        {% endif %}
+    </BODY>
+</HTML>
