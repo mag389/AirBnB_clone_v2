@@ -28,7 +28,7 @@ def state_list(id=None):
     states = storage.all(State)
     cities = storage.all(City)
     exists = 0
-    state=None
+    state = None
     for v in states.values():
         if id == v.id:
             exists = 1
